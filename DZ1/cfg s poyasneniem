@@ -1,0 +1,185 @@
+\\\\\\\\\\\  S1  \\\\\\\\\\\
+
+
+hostname S1 \\ настройка имени 
+boot-start-marker
+boot-end-marker
+enable secret 5 $1$CSx7$SZaTOFWM7BXX7GBQT.lDA0 \\настройка входа в привеллигированый режим 
+enable password 7 121A09160118 \\настройка входа в привеллигированый режим 
+username cisco password 7 02050D480809 \\ настройка входа в привеллигированый режим 
+no aaa new-model
+no ip domain-lookup
+ip cef
+
+vlan internal allocation policy ascending
+interface GigabitEthernet0/0 
+ switchport trunk allowed vlan 3,4,8 \\ настрока vlan  транком на интерфейс 
+ switchport trunk native vlan 8 \\ настройка натив влан 
+ shutdown
+ media-type rj45
+ negotiation auto
+
+interface GigabitEthernet0/1
+ switchport access vlan 3 \\ настройка vlan access
+ switchport trunk allowed vlan 3,4,8 \\ настрока vlan  транком на интерфейс
+ switchport trunk native vlan 8 \\ настройка натив влан 
+ switchport mode access
+ media-type rj45
+ negotiation auto
+
+interface GigabitEthernet0/2
+ switchport trunk allowed vlan 3,4,8 \\ настройка vlan  транком на интерфейс
+ switchport trunk encapsulation dot1q \\ инкапсуляция в 801.q
+ switchport trunk native vlan 8 \\ настройка натив влан 
+ switchport mode trunk \\ перевод порта в транковый (магистральный) режим 
+ media-type rj45
+ negotiation auto
+
+interface GigabitEthernet0/3
+ switchport trunk allowed vlan 3,4,8 \\ настройка натив влан 
+ switchport trunk encapsulation dot1q \\ инкапсуляция в 801.q
+ switchport trunk native vlan 8 \\ настройка натив влан 
+ switchport mode trunk
+ media-type rj45
+ negotiation auto \\ автоьсогласование скорости на порту 
+
+interface Vlan3
+ ip address 192.168.3.11 255.255.255.0  \\ настройка vlan управления 
+
+ip default-gateway 192.168.3.1 \\ настройка шлюза по умолчанию
+
+banner exec ^C  \\ настройка баннера привеллигировааного режима
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+banner incoming ^C 
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+banner login ^C \\ настройка баннера входа 
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+banner motd ^C^C
+!
+line con 0 
+ exec-timeout 5 0
+line aux 0
+line vty 0 4 
+password class \\ настроука привелегий доступа и задание пароля для VTY 
+ exec-timeout 5 0
+ login
+!
+!
+end
+
+
+\\\\\\\\\\\\\  S2 - настравиается аналогичным способом  , поэтому выкладываю только сетевые настройки портов и шлюза   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+
+
+interface GigabitEthernet0/0 \\ остальные отключенные интерфейсы настриваются аналогичным способом
+ switchport access vlan 7
+ switchport mode access
+ shutdown
+ media-type rj45
+ negotiation auto
+!
+interface GigabitEthernet0/1
+ switchport access vlan 4
+ switchport mode access
+ media-type rj45
+ negotiation auto
+!
+interface GigabitEthernet0/2
+ switchport trunk allowed vlan 3,4,8
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 8
+ switchport mode trunk
+ media-type rj45
+ negotiation auto
+egotiation auto
+!
+interface Vlan3
+ ip address 192.168.3.12 255.255.255.0
+!
+ip default-gateway 192.168.3.1
+
+
+
+
+\\\\\\\\\\\\\\\\\\\\\\\  R1 - так же параметры первоночальной насторойки задаются аналогичным способом что и в S1  , выкладываю сетевые настройки только \\\\\\\\\\\\\\\
+
+
+
+interface GigabitEthernet0/1.3 \\ создание sub нинтерфейса 
+ description mngt \\ название данного интерфейса
+ encapsulation dot1Q 3 \\ назначение на него нужного vlan
+ ip address 192.168.3.1 255.255.255.0 \\ назначение необходимой под него сети 
+
+
+
+interface GigabitEthernet0/1.4
+ description Operations
+ encapsulation dot1Q 4
+ ip address 192.168.4.1 255.255.255.0
+!
+interface GigabitEthernet0/1.8
+ description Native \\ название данного интерфейса
+ encapsulation dot1Q 8 native \\ назначяение под него vlan  и определение его нативным ( дефолтным)
+!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
