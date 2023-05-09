@@ -1,0 +1,29 @@
+Пинг с ПК-А на S2
+
+VPCS> ping 192.168.3.12
+
+84 bytes from 192.168.3.12 icmp_seq=1 ttl=255 time=24.031 ms
+84 bytes from 192.168.3.12 icmp_seq=2 ttl=255 time=17.018 ms
+84 bytes from 192.168.3.12 icmp_seq=3 ttl=255 time=6.141 ms
+84 bytes from 192.168.3.12 icmp_seq=4 ttl=255 time=9.540 ms
+84 bytes from 192.168.3.12 icmp_seq=5 ttl=255 time=4.026 ms
+
+Пункт2
+
+В командной строке ПК-Б введите команду tracert для адреса ПК-А.
+
+Какие промежуточные IP-адреса отображаются в результатах?
+
+VPCS> trace 192.168.3.3
+trace to 192.168.3.3, 8 hops max, press Ctrl+C to stop
+ 1   192.168.4.1   4.928 ms  4.112 ms  5.472 ms
+ 2   *192.168.3.3   10.451 ms (ICMP type:3, code:3, Destination port unreachable )
+
+
+VPCS> ping 192.168.3.3
+
+84 bytes from 192.168.3.3 icmp_seq=1 ttl=63 time=6.142 ms
+84 bytes from 192.168.3.3 icmp_seq=2 ttl=63 time=6.527 ms
+84 bytes from 192.168.3.3 icmp_seq=3 ttl=63 time=5.638 ms
+84 bytes from 192.168.3.3 icmp_seq=4 ttl=63 time=6.859 ms
+84 bytes from 192.168.3.3 icmp_seq=5 ttl=63 time=6.498 ms
